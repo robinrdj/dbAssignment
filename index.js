@@ -23,20 +23,18 @@ const pool = new Pool({
   ssl: { rejectUnauthorized: false },
 });
 
-app.get("/",async(req,res)=>{
-    const result = await pool.query("SELECT * FROM product");
-    res.json(result.rows);
-})
+app.get("/", async (req, res) => {
+  const result = await pool.query("SELECT * FROM product");
+  res.json(result.rows);
+});
 
-// app.get("/",async(req,res)=>{
-//     const { userId } = req.params;
-//     const result = await pool.query("SELECT * FROM product WHERE id = $1 ", [
-//       userId,
-//     ]);
-//   res.json(result.rows);
-// })
-
-
+app.get("/:userId", async (req, res) => {
+  const { userId } = req.params;
+  const result = await pool.query("SELECT * FROM product WHERE eId = $1 ", [
+    userId,
+  ]);
+  res.json(result.rows);
+});
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`✅ Server running on ${PORT}`));
