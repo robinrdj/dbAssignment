@@ -36,12 +36,12 @@ app.get("/:userId", async (req, res) => {
   res.json(result.rows);
 });
 app.post("/add", async (req, res) => {
-  const { eId, eName } = req.body;
+  const { id, eName } = req.body;
 
   try {
     const result = await pool.query(
-      "INSERT INTO product (eId, eName) VALUES ($1, $2) RETURNING *",
-      [eId, eName]
+      "INSERT INTO product (id, eName) VALUES ($1, $2) RETURNING *",
+      [id, eName]
     );
     res.status(201).json(result.rows[0]);
   } catch (err) {
