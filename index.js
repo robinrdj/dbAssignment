@@ -35,6 +35,20 @@ app.get("/:userId", async (req, res) => {
   ]);
   res.json(result.rows);
 });
+app.post("/add", async (req, res) => {
+  const { eId, eName } = req.body;
+
+  try {
+    const result = await pool.query(
+      "INSERT INTO product (eId, eName) VALUES ($1, $2) RETURNING *",
+      [eId, eName]
+    );
+    res.status(201).json(result.rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to insert data" });
+  }
+});
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`✅ Server running on ${PORT}`));
